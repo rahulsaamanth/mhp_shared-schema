@@ -1,0 +1,35 @@
+{
+  "name": "@rahulsaamanth/mhp_shared-schema",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "respository": {
+    "type": "git",
+    "url": "https://github.com/rahulsaamanth/mhp_shared-schema.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "rahulsaamanth",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rahulsaamanth/mhp_shared-schema/issues"
+  },
+  "homepage": "https://github.com/rahulsaamanth/mhp_shared-schema#readme",
+  "description": "shared schema for related projects",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.40.1",
+    "postgres": "^3.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "drizzle-kit": "^0.30.5",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
+  }
+}
