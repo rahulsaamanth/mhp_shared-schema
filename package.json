@@ -1,8 +1,8 @@
 {
   "name": "@rahulsaamanth/mhp_shared-schema",
   "version": "1.0.2",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "respository": {
     "type": "git",
     "url": "https://github.com/rahulsaamanth/mhp_shared-schema.git"

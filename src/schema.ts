@@ -431,6 +431,10 @@ export const product = pgTable(
         table.unit,
         table.form
       ),
+      productCategoryStatusIdx: index("product_category_status_idx").on(
+        table.categoryId,
+        table.status
+      ),
     }
   }
 )
@@ -454,7 +458,6 @@ export const productVariant = pgTable(
 
     discount: integer("discount").default(0),
     discountType: discountType("discountType").default("PERCENTAGE"),
-
     sellingPrice: doublePrecision("sellingPrice").notNull(),
   },
   (table) => {
@@ -467,10 +470,6 @@ export const productVariant = pgTable(
         .onDelete("cascade")
         .onUpdate("cascade"),
       variantSkuIdx: index("idx_variant_sku").on(table.sku),
-      variantCostPriceIdx: index("idx_variant_costPrice").on(table.costPrice),
-      variantSellingPriceIdx: index("idx_variant_sellingPrice").on(
-        table.sellingPrice
-      ),
       variantStockLocationIdx: index("idx_variant_stock_location").on(
         table.stockByLocation
       ),
@@ -480,6 +479,12 @@ export const productVariant = pgTable(
         table.potency,
         table.packSize
       ),
+      variantPriceIdx: index("idx_variant_price").on(
+        table.sellingPrice,
+        table.mrp
+      ),
+      variantPotencyIdx: index("idx_variant_potency").on(table.potency),
+      variantDiscountIdx: index("idx_variant_discount").on(table.discount),
     }
   }
 )
@@ -598,6 +603,10 @@ export const order = pgTable(
       orderInvoiceNumberIdx: index("order_invoice_number_idx").on(
         table.invoiceNumber
       ),
+      orderStatusIdx: index("order_payment_delivery_status_idx").on(
+        table.paymentStatus,
+        table.deliveryStatus
+      ),
     }
   }
 )
@@ -637,9 +646,7 @@ export const orderDetails = pgTable(
       })
         .onUpdate("cascade")
         .onDelete("cascade"),
-      orderDetailsStatusIdx: index("order_details_status_idx").on(
-        table.itemStatus
-      ),
+
       orderDetailsFulfillmentIdx: index("order_details_fulfillment_idx").on(
         table.fulfilledFromLocation
       ),
@@ -678,6 +685,11 @@ export const review = pgTable(
       })
         .onUpdate("cascade")
         .onDelete("cascade"),
+      reviewRatingIdx: index("review_rating_idx").on(table.rating),
+      reviewProductDateIdx: index("review_product_date_idx").on(
+        table.productId,
+        table.createdAt
+      ),
     }
   }
 )
