@@ -375,6 +375,8 @@ export const category = pgTable(
       })
         .onUpdate("cascade")
         .onDelete("set null"),
+      categoryTreeIdx: index("idx_category_tree").on(table.id, table.parentId),
+      categoryParentIdx: index("idx_category_parent").on(table.parentId),
     }
   }
 )
