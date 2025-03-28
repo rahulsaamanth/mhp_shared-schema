@@ -1,5 +1,5 @@
 {
-  "id": "ab85f418-91c5-4fe7-8504-b2f89946e178",
+  "id": "115c1703-a84c-4f42-8cb5-6550af2b9b85",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -272,7 +272,44 @@
           "notNull": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "idx_category_tree": {
+          "name": "idx_category_tree",
+          "columns": [
+            {
+              "expression": "id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "parentId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_category_parent": {
+          "name": "idx_category_parent",
+          "columns": [
+            {
+              "expression": "parentId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "Category_parentId_fkey": {
           "name": "Category_parentId_fkey",
@@ -739,6 +776,27 @@
           "concurrently": false,
           "method": "btree",
           "with": {}
+        },
+        "order_payment_delivery_status_idx": {
+          "name": "order_payment_delivery_status_idx",
+          "columns": [
+            {
+              "expression": "paymentStatus",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "deliveryStatus",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -898,21 +956,6 @@
         }
       },
       "indexes": {
-        "order_details_status_idx": {
-          "name": "order_details_status_idx",
-          "columns": [
-            {
-              "expression": "itemStatus",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
         "order_details_fulfillment_idx": {
           "name": "order_details_fulfillment_idx",
           "columns": [
@@ -1328,6 +1371,27 @@
           "concurrently": false,
           "method": "btree",
           "with": {}
+        },
+        "product_category_status_idx": {
+          "name": "product_category_status_idx",
+          "columns": [
+            {
+              "expression": "categoryId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
@@ -1477,36 +1541,6 @@
           "method": "btree",
           "with": {}
         },
-        "idx_variant_costPrice": {
-          "name": "idx_variant_costPrice",
-          "columns": [
-            {
-              "expression": "costPrice",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "idx_variant_sellingPrice": {
-          "name": "idx_variant_sellingPrice",
-          "columns": [
-            {
-              "expression": "sellingPrice",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
         "idx_variant_stock_location": {
           "name": "idx_variant_stock_location",
           "columns": [
@@ -1539,6 +1573,57 @@
             },
             {
               "expression": "packSize",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_variant_price": {
+          "name": "idx_variant_price",
+          "columns": [
+            {
+              "expression": "sellingPrice",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "mrp",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_variant_potency": {
+          "name": "idx_variant_potency",
+          "columns": [
+            {
+              "expression": "potency",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "idx_variant_discount": {
+          "name": "idx_variant_discount",
+          "columns": [
+            {
+              "expression": "discount",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1636,7 +1721,44 @@
           "default": "now()"
         }
       },
-      "indexes": {},
+      "indexes": {
+        "review_rating_idx": {
+          "name": "review_rating_idx",
+          "columns": [
+            {
+              "expression": "rating",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "review_product_date_idx": {
+          "name": "review_product_date_idx",
+          "columns": [
+            {
+              "expression": "productId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "createdAt",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "Review_userId_fkey": {
           "name": "Review_userId_fkey",

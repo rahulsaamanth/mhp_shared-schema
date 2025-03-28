@@ -242,6 +242,8 @@ ALTER TABLE "Review" ADD CONSTRAINT "Review_productId_fkey" FOREIGN KEY ("produc
 ALTER TABLE "TwoFactorConfirmation" ADD CONSTRAINT "TwoFactorConfirmation_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
 CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account" USING btree ("provider","providerAccountId");--> statement-breakpoint
 CREATE INDEX "Adress_userId_index" ON "Address" USING btree ("userId");--> statement-breakpoint
+CREATE INDEX "idx_category_tree" ON "Category" USING btree ("id","parentId");--> statement-breakpoint
+CREATE INDEX "idx_category_parent" ON "Category" USING btree ("parentId");--> statement-breakpoint
 CREATE INDEX "idx_inventory_movement_variant" ON "InventoryManagement" USING btree ("productVariantId");--> statement-breakpoint
 CREATE INDEX "idx_inventory_movement_date" ON "InventoryManagement" USING btree ("createdAt");--> statement-breakpoint
 CREATE INDEX "idx_inventory_movement_order" ON "InventoryManagement" USING btree ("orderId");--> statement-breakpoint
@@ -250,7 +252,7 @@ CREATE INDEX "order_date_status_idx" ON "Order" USING btree ("orderDate","delive
 CREATE INDEX "order_user_date_idx" ON "Order" USING btree ("userId","orderDate");--> statement-breakpoint
 CREATE INDEX "order_payment_status_idx" ON "Order" USING btree ("paymentStatus");--> statement-breakpoint
 CREATE INDEX "order_invoice_number_idx" ON "Order" USING btree ("invoiceNumber");--> statement-breakpoint
-CREATE INDEX "order_details_status_idx" ON "OrderDetails" USING btree ("itemStatus");--> statement-breakpoint
+CREATE INDEX "order_payment_delivery_status_idx" ON "Order" USING btree ("paymentStatus","deliveryStatus");--> statement-breakpoint
 CREATE INDEX "order_details_fulfillment_idx" ON "OrderDetails" USING btree ("fulfilledFromLocation");--> statement-breakpoint
 CREATE UNIQUE INDEX "PasswordResetToken_email_token_key" ON "PasswordResetToken" USING btree ("email","token");--> statement-breakpoint
 CREATE UNIQUE INDEX "PasswordResetToken_token_key" ON "PasswordResetToken" USING btree ("token");--> statement-breakpoint
@@ -260,11 +262,15 @@ CREATE INDEX "product_status_idx" ON "Product" USING btree ("status");--> statem
 CREATE INDEX "product_category_idx" ON "Product" USING btree ("categoryId");--> statement-breakpoint
 CREATE INDEX "product_created_at_idx" ON "Product" USING btree ("createdAt");--> statement-breakpoint
 CREATE INDEX "product_form_unit_idx" ON "Product" USING btree ("unit","form");--> statement-breakpoint
+CREATE INDEX "product_category_status_idx" ON "Product" USING btree ("categoryId","status");--> statement-breakpoint
 CREATE INDEX "idx_variant_sku" ON "ProductVariant" USING btree ("sku");--> statement-breakpoint
-CREATE INDEX "idx_variant_costPrice" ON "ProductVariant" USING btree ("costPrice");--> statement-breakpoint
-CREATE INDEX "idx_variant_sellingPrice" ON "ProductVariant" USING btree ("sellingPrice");--> statement-breakpoint
 CREATE INDEX "idx_variant_stock_location" ON "ProductVariant" USING btree ("stockByLocation");--> statement-breakpoint
 CREATE INDEX "idx_variant_search" ON "ProductVariant" USING btree ("productId","potency","packSize");--> statement-breakpoint
+CREATE INDEX "idx_variant_price" ON "ProductVariant" USING btree ("sellingPrice","mrp");--> statement-breakpoint
+CREATE INDEX "idx_variant_potency" ON "ProductVariant" USING btree ("potency");--> statement-breakpoint
+CREATE INDEX "idx_variant_discount" ON "ProductVariant" USING btree ("discount");--> statement-breakpoint
+CREATE INDEX "review_rating_idx" ON "Review" USING btree ("rating");--> statement-breakpoint
+CREATE INDEX "review_product_date_idx" ON "Review" USING btree ("productId","createdAt");--> statement-breakpoint
 CREATE UNIQUE INDEX "TwoFactorConfirmation_userId_key" ON "TwoFactorConfirmation" USING btree ("userId");--> statement-breakpoint
 CREATE UNIQUE INDEX "TwoFactorToken_email_token_key" ON "TwoFactorToken" USING btree ("email","token");--> statement-breakpoint
 CREATE UNIQUE INDEX "TwoFactorToken_token_key" ON "TwoFactorToken" USING btree ("token");--> statement-breakpoint

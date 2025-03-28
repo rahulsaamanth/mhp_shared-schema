@@ -267,6 +267,8 @@ exports.category = (0, pg_core_1.pgTable)("Category", {
         })
             .onUpdate("cascade")
             .onDelete("set null"),
+        categoryTreeIdx: (0, pg_core_1.index)("idx_category_tree").on(table.id, table.parentId),
+        categoryParentIdx: (0, pg_core_1.index)("idx_category_parent").on(table.parentId),
     };
 });
 exports.manufacturer = (0, pg_core_1.pgTable)("Manufacturer", {
@@ -310,6 +312,7 @@ exports.product = (0, pg_core_1.pgTable)("Product", {
         productCategoryIndex: (0, pg_core_1.index)("product_category_idx").on(table.categoryId),
         productCreatedAtIndex: (0, pg_core_1.index)("product_created_at_idx").on(table.createdAt),
         productFormUnitIndex: (0, pg_core_1.index)("product_form_unit_idx").on(table.unit, table.form),
+        productCategoryStatusIdx: (0, pg_core_1.index)("product_category_status_idx").on(table.categoryId, table.status),
     };
 });
 exports.productVariant = (0, pg_core_1.pgTable)("ProductVariant", {
@@ -339,10 +342,11 @@ exports.productVariant = (0, pg_core_1.pgTable)("ProductVariant", {
             .onDelete("cascade")
             .onUpdate("cascade"),
         variantSkuIdx: (0, pg_core_1.index)("idx_variant_sku").on(table.sku),
-        variantCostPriceIdx: (0, pg_core_1.index)("idx_variant_costPrice").on(table.costPrice),
-        variantSellingPriceIdx: (0, pg_core_1.index)("idx_variant_sellingPrice").on(table.sellingPrice),
         variantStockLocationIdx: (0, pg_core_1.index)("idx_variant_stock_location").on(table.stockByLocation),
         variantSearchIdx: (0, pg_core_1.index)("idx_variant_search").on(table.productId, table.potency, table.packSize),
+        variantPriceIdx: (0, pg_core_1.index)("idx_variant_price").on(table.sellingPrice, table.mrp),
+        variantPotencyIdx: (0, pg_core_1.index)("idx_variant_potency").on(table.potency),
+        variantDiscountIdx: (0, pg_core_1.index)("idx_variant_discount").on(table.discount),
     };
 });
 exports.paymentMethod = (0, pg_core_1.pgTable)("PaymentMethod", {
@@ -434,6 +438,7 @@ exports.order = (0, pg_core_1.pgTable)("Order", {
         orderUserDateIdx: (0, pg_core_1.index)("order_user_date_idx").on(table.userId, table.orderDate),
         orderPaymentStatusIdx: (0, pg_core_1.index)("order_payment_status_idx").on(table.paymentStatus),
         orderInvoiceNumberIdx: (0, pg_core_1.index)("order_invoice_number_idx").on(table.invoiceNumber),
+        orderStatusIdx: (0, pg_core_1.index)("order_payment_delivery_status_idx").on(table.paymentStatus, table.deliveryStatus),
     };
 });
 exports.orderDetails = (0, pg_core_1.pgTable)("OrderDetails", {
@@ -466,7 +471,6 @@ exports.orderDetails = (0, pg_core_1.pgTable)("OrderDetails", {
         })
             .onUpdate("cascade")
             .onDelete("cascade"),
-        orderDetailsStatusIdx: (0, pg_core_1.index)("order_details_status_idx").on(table.itemStatus),
         orderDetailsFulfillmentIdx: (0, pg_core_1.index)("order_details_fulfillment_idx").on(table.fulfilledFromLocation),
     };
 });
@@ -498,6 +502,8 @@ exports.review = (0, pg_core_1.pgTable)("Review", {
         })
             .onUpdate("cascade")
             .onDelete("cascade"),
+        reviewRatingIdx: (0, pg_core_1.index)("review_rating_idx").on(table.rating),
+        reviewProductDateIdx: (0, pg_core_1.index)("review_product_date_idx").on(table.productId, table.createdAt),
     };
 });
 exports.address = (0, pg_core_1.pgTable)("Address", {
